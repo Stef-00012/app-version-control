@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "db:setup": "bun db:generate && bun db:migrate",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
     "dev": "NEXT_TELEMETRY_DISABLED=1 next dev --turbopack",
     "build": "NEXT_TELEMETRY_DISABLED=1 next build --turbopack",
     "start": "NEXT_TELEMETRY_DISABLED=1 next start",
