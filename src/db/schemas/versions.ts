@@ -1,3 +1,4 @@
+import type { VersionPlatforms } from "@/types/db";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const versions = sqliteTable("versions", {
@@ -5,5 +6,5 @@ export const versions = sqliteTable("versions", {
 	versionName: text("version_name").notNull(),
 	platforms: text("platforms", {
         mode: "json"
-    }).notNull().default("{}"),
+    }).notNull().default("{}").$type<VersionPlatforms>(),
 });
