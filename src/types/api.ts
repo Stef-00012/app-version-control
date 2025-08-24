@@ -1,4 +1,4 @@
-import { VersionPlatforms } from "./db";
+import type { VersionPlatforms } from "./db";
 
 export interface APIPlatformsPostBody {
     name?: string;
@@ -32,4 +32,9 @@ export interface APIVersionsPostBody {
 export interface APIVersionsPatchBody {
     platforms?: VersionPlatforms;
     versionName?: string;
+}
+
+export interface APIAuthPostBody {
+    username?: string;
+    password?: string;
 }

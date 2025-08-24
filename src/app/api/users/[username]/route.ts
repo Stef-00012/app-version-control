@@ -50,6 +50,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ us
         admin: body.admin ?? userData.admin,
     }).where(eq(schema.users.username, username));
 
+    if (body.username && body.username !== userData.username) {
+        await db
+            .update(schema.versions)
+            .set({
+                owner: body.username,
+            })
+            .where(eq(schema.versions.owner, authUser.username));
+    }
+
     return new NextResponse(null, { status: 204 });
 }
 
@@ -72,6 +81,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ u
         return NextResponse.json({ error: "User not found" }, { status: 404 });
 
     await db.delete(schema.users).where(eq(schema.users.username, username));
+    await db.delete(schema.versions).where(eq(schema.versions.owner, userData.username));
 
     return new NextResponse(null, { status: 204 });
 }

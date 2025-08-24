@@ -6,44 +6,63 @@ import { eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-    const authUser = await checkAuth(req);
-        
-    if (!authUser) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	const authUser = await checkAuth(req);
 
-    return NextResponse.json(authUser);
+	if (!authUser)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+	return NextResponse.json(authUser);
 }
 
 export async function PATCH(req: NextRequest) {
-    const authUser = await checkAuth(req);
-        
-    if (!authUser) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	const authUser = await checkAuth(req);
 
-    const body = await req.json() as APIUsersPatchBody;
+	if (!authUser)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    if (
-        !body ||
-        (!body.username && !body.password && body.admin === undefined)
-    ) return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+	const body = (await req.json()) as APIUsersPatchBody;
 
-    await db.update(schema.users).set({
-        username: body.username,
-        password: body.password,
-        admin: body.admin,
-    }).where(eq(schema.users.username, authUser.username));
+	if (!body || (!body.username && !body.password && body.admin === undefined))
+		return NextResponse.json({ error: "Invalid body" }, { status: 400 });
 
-    return new NextResponse(null, { status: 204 });
+	await db
+		.update(schema.users)
+		.set({
+			username: body.username,
+			password: body.password,
+			admin: body.admin,
+		})
+		.where(eq(schema.users.username, authUser.username));
+
+	if (body.username && body.username !== authUser.username) {
+		await db
+			.update(schema.versions)
+			.set({
+				owner: body.username,
+			})
+			.where(eq(schema.versions.owner, authUser.username));
+	}
+
+	return new NextResponse(null, { status: 204 });
 }
 
 export async function DELETE(req: NextRequest) {
-    const authUser = await checkAuth(req);
-        
-    if (!authUser) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	const authUser = await checkAuth(req);
 
-    const body = await req.json() as APIUsersPatchBody;
+	if (!authUser)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    if (!body) return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+	const body = (await req.json()) as APIUsersPatchBody;
 
-    await db.delete(schema.users).where(eq(schema.users.username, authUser.username));
+	if (!body)
+		return NextResponse.json({ error: "Invalid body" }, { status: 400 });
 
-    return new NextResponse(null, { status: 204 });
+	await db
+		.delete(schema.users)
+		.where(eq(schema.users.username, authUser.username));
+	await db
+		.delete(schema.versions)
+		.where(eq(schema.versions.owner, authUser.username));
+
+	return new NextResponse(null, { status: 204 });
 }

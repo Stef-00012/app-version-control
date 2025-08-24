@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url(https://fonts.bunny.net/css?family=atkinson-hyperlegible:400|ubuntu-mono:400);
+@import "tailwindcss";
 
 @plugin "@iconify/tailwind4";
 @plugin "daisyui";
@@ -51,5 +51,4 @@ code { @apply p-1 m-1 font-mono rounded-lg bg-base-300; }
 img { @apply select-none; }
 hr { @apply border-base-content; }
 p { @apply inline; }
-
-  html, body { @apply overflow-x-hidden max-w-screen; }
+html, body { @apply overflow-x-hidden max-w-screen; }

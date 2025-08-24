@@ -1,9 +1,10 @@
-// import Image from "next/image";
+import { redirect } from "next/navigation";
+import checkAuth from "@/util/auth";
 
-export default function Home() {
-    return (
-        <div>
+export default async function Home() {
+	const authUser = await checkAuth();
 
-        </div>
-    );
+	if (!authUser) return redirect("/login");
+
+	return redirect("/dashboard");
 }

@@ -8,12 +8,14 @@
     "db:migrate": "drizzle-kit migrate",
     "db:wipe": "rm -r ./drizzle ./data/data.db && bun db:setup",
     "dev": "NEXT_TELEMETRY_DISABLED=1 next dev --turbopack",
+    "dev:debug": "NEXT_TELEMETRY_DISABLED=1 NODE_OPTIONS='--inspect' next dev --turbopack",
     "build": "NEXT_TELEMETRY_DISABLED=1 next build --turbopack",
     "start": "NEXT_TELEMETRY_DISABLED=1 next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@libsql/client": "^0.15.12",
+    "axios": "^1.11.0",
     "daisyui": "^5.0.50",
     "drizzle-orm": "^0.44.4",
     "next": "15.5.0",

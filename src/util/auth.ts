@@ -1,15 +1,18 @@
 import db from "@/db/db";
 import schema from "@/db/schema";
 import { sql } from "drizzle-orm";
+import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
 
-export default async function checkAuth(req: NextRequest, admin?: boolean): Promise<null | typeof schema.users.$inferSelect> {
-    const auth = req.headers.get("Authorization");
+export default async function checkAuth(req?: NextRequest, admin?: boolean): Promise<null | typeof schema.users.$inferSelect> {
+    const cookieStore = await cookies()
+
+    const tokenCookie = cookieStore.get("token")
+
+    const auth = req?.headers.get("Authorization") || tokenCookie?.value;
     
     if (!auth)
         return null;
-
-    console.log(auth)
 
     const res = await db
         .select()
@@ -22,12 +25,6 @@ export default async function checkAuth(req: NextRequest, admin?: boolean): Prom
         .limit(1);
 
     const user = res[0];
-
-    // const user = await db.query.users.findFirst({
-    //     where: sql`${auth} IN (${schema.users.tokens})`
-    // });
-
-    console.log(user)
 
     if (!user) return null;
     if (admin && !user.admin) return null;
