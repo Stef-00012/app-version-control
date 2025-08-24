@@ -1,9 +1,12 @@
-import { drizzle } from "drizzle-orm/bun-sqlite";
-import { Database } from "bun:sqlite";
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client";
 import schema from "./schema";
 
-const client = new Database("./data/data.db");
+const client = createClient({ url: "file:data/data.db" });
 
 export default drizzle(client, {
 	schema,
+	logger: process.env.DB_LOGGING === "true",
 });
+
+export { schema };
