@@ -1,6 +1,6 @@
 import db from "@/db/db";
 import schema from "@/db/schema";
-import type { APIUsersPatchBody } from "@/types/api";
+import type { APISelfUserPatchBody } from "@/types/api";
 import checkAuth from "@/util/auth";
 import { eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
@@ -20,9 +20,9 @@ export async function PATCH(req: NextRequest) {
 	if (!authUser)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-	const body = (await req.json()) as APIUsersPatchBody;
+	const body = (await req.json()) as APISelfUserPatchBody;
 
-	if (!body || (!body.username && !body.password && body.admin === undefined))
+	if (!body || (!body.username && !body.password))
 		return NextResponse.json({ error: "Invalid body" }, { status: 400 });
 
 	await db
@@ -30,18 +30,8 @@ export async function PATCH(req: NextRequest) {
 		.set({
 			username: body.username,
 			password: body.password,
-			admin: body.admin,
 		})
-		.where(eq(schema.users.username, authUser.username));
-
-	if (body.username && body.username !== authUser.username) {
-		await db
-			.update(schema.versions)
-			.set({
-				owner: body.username,
-			})
-			.where(eq(schema.versions.owner, authUser.username));
-	}
+		.where(eq(schema.users.id, authUser.id));
 
 	return new NextResponse(null, { status: 204 });
 }
@@ -52,17 +42,13 @@ export async function DELETE(req: NextRequest) {
 	if (!authUser)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-	const body = (await req.json()) as APIUsersPatchBody;
+	await db.delete(schema.users).where(eq(schema.users.id, authUser.id));
 
-	if (!body)
-		return NextResponse.json({ error: "Invalid body" }, { status: 400 });
-
-	await db
-		.delete(schema.users)
-		.where(eq(schema.users.username, authUser.username));
 	await db
 		.delete(schema.versions)
-		.where(eq(schema.versions.owner, authUser.username));
+		.where(eq(schema.versions.ownerId, authUser.id));
+
+	await db.delete(schema.apps).where(eq(schema.apps.ownerId, authUser.id));
 
 	return new NextResponse(null, { status: 204 });
 }

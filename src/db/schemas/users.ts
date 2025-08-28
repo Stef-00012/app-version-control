@@ -1,7 +1,10 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const users = sqliteTable("users", {
-	username: text("username").notNull().primaryKey(),
+	id: integer("id").notNull().primaryKey({
+		autoIncrement: true,
+	}),
+	username: text("username").notNull(),
 	password: text("password").notNull(),
 	tokens: text("tokens", {
 		mode: "json",

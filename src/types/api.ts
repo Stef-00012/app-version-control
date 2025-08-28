@@ -23,6 +23,11 @@ export interface APIUsersPatchBody {
     admin?: boolean;
 }
 
+export interface APISelfUserPatchBody {
+    username?: string;
+    password?: string;
+}
+
 export interface APIVersionsPostBody {
     platforms?: VersionPlatforms;
     versionName?: string;
@@ -37,4 +42,12 @@ export interface APIVersionsPatchBody {
 export interface APIAuthPostBody {
     username?: string;
     password?: string;
+}
+
+export interface APIAppsPostBody {
+    name: string;
+}
+
+export interface APIAppsPatchBody {
+    name: string;
 }

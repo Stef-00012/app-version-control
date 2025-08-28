@@ -32,10 +32,7 @@ export async function POST(req: NextRequest) {
 	const body = (await req.json()) as APIUsersPostBody;
 
 	if (!body || !body.username || !body.password)
-		return NextResponse.json(
-			{ error: "Invalid body" },
-			{ status: 400 },
-		);
+		return NextResponse.json({ error: "Invalid body" }, { status: 400 });
 
 	const userName = body.username;
 	const userPassword = body.password;
@@ -47,7 +44,7 @@ export async function POST(req: NextRequest) {
 	if (userData)
 		return NextResponse.json({ error: "User already exists" }, { status: 400 });
 
-	const token = createToken(userName)
+	const token = createToken(userName);
 
 	await db.insert(schema.users).values({
 		username: userName,

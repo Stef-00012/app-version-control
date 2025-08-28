@@ -36,11 +36,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (!platformData)
         return NextResponse.json({ error: "Platform not found" }, { status: 404 });
 
-    await db.update(schema.platforms).set({
+    const newPlatform = await db.update(schema.platforms).set({
         name: body.name ?? platformData.name,
-    }).where(eq(schema.platforms.id, id));
+    }).where(eq(schema.platforms.id, id)).returning();
 
-	return new NextResponse(null, { status: 204 });
+	return NextResponse.json(newPlatform[0]);
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {

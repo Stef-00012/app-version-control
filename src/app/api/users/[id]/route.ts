@@ -5,15 +5,15 @@ import checkAuth from "@/util/auth";
 import { eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ username: string }> }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const authUser = await checkAuth(req, true);
         
     if (!authUser) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { username } = await params;
+    const { id } = await params;
 
     const user = await db.query.users.findFirst({
-        where: eq(schema.users.username, username),
+        where: eq(schema.users.id, Number(id)),
         columns: {
             password: false,
             tokens: false,
@@ -26,7 +26,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ user
     return NextResponse.json(user);
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: Promise<{ username: string }> }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const authUser = await checkAuth(req, true);
         
     if (!authUser) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -35,10 +35,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ us
 
     if (!body) return NextResponse.json({ error: "Invalid body" }, { status: 400 });
 
-    const { username } = await params;
+    const { id } = await params;
 
     const userData = await db.query.users.findFirst({
-        where: eq(schema.users.username, username),
+        where: eq(schema.users.id, Number(id)),
     });
 
     if (!userData)
@@ -48,21 +48,12 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ us
         username: body.username ?? userData.username,
         password: body.password ?? userData.password,
         admin: body.admin ?? userData.admin,
-    }).where(eq(schema.users.username, username));
-
-    if (body.username && body.username !== userData.username) {
-        await db
-            .update(schema.versions)
-            .set({
-                owner: body.username,
-            })
-            .where(eq(schema.versions.owner, authUser.username));
-    }
+    }).where(eq(schema.users.id, userData.id));
 
     return new NextResponse(null, { status: 204 });
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: Promise<{ username: string }> }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const authUser = await checkAuth(req, true);
         
     if (!authUser) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -71,17 +62,18 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ u
 
     if (!body) return NextResponse.json({ error: "Invalid body" }, { status: 400 });
 
-    const { username } = await params;
+    const { id } = await params;
 
     const userData = await db.query.users.findFirst({
-        where: eq(schema.users.username, username),
+        where: eq(schema.users.id, Number(id)),
     });
 
     if (!userData)
         return NextResponse.json({ error: "User not found" }, { status: 404 });
 
-    await db.delete(schema.users).where(eq(schema.users.username, username));
-    await db.delete(schema.versions).where(eq(schema.versions.owner, userData.username));
+    await db.delete(schema.users).where(eq(schema.users.id, userData.id));
+    await db.delete(schema.versions).where(eq(schema.versions.ownerId, userData.id));
+    await db.delete(schema.apps).where(eq(schema.apps.ownerId, userData.id));
 
     return new NextResponse(null, { status: 204 });
 }
