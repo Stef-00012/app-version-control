@@ -6,7 +6,9 @@ import { eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
+	console.debug("GET /api/users/me - start");
 	const authUser = await checkAuth(req);
+	console.debug("GET /api/users/me - authUser");
 
 	if (!authUser)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

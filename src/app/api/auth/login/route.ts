@@ -1,6 +1,7 @@
 import db, { schema } from "@/db/db";
 import type { APIAuthPostBody } from "@/types/api";
 import checkAuth from "@/util/auth";
+import createToken from "@/util/createToken";
 import { and, eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
@@ -36,7 +37,7 @@ export async function POST(req: NextRequest) {
 	if (!user)
 		return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
 
-	const token = crypto.randomUUID();
+	const token = createToken(user.id);
 
 	const tokens = user.tokens ? [...user.tokens, token] : [token];
 

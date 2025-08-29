@@ -1,9 +1,48 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "2fee7570-ed1f-4705-841d-1269ca7b38ea",
+  "id": "d2d9b0af-3254-4201-afc2-7824fdc76a3e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "apps": {
+      "name": "apps",
+      "columns": {
+        "app_id": {
+          "name": "app_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "app_name": {
+          "name": "app_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "platforms": {
+          "name": "platforms",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'{}'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "platforms": {
       "name": "platforms",
       "columns": {
@@ -38,10 +77,17 @@
     "users": {
       "name": "users",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
         "username": {
           "name": "username",
           "type": "text",
-          "primaryKey": true,
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
@@ -94,7 +140,14 @@
         },
         "owner": {
           "name": "owner",
-          "type": "text",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "app_name": {
+          "name": "app_name",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -111,12 +164,12 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "versions_version_code_owner_pk": {
+        "versions_app_name_version_code_pk": {
           "columns": [
-            "version_code",
-            "owner"
+            "app_name",
+            "version_code"
           ],
-          "name": "versions_version_code_owner_pk"
+          "name": "versions_app_name_version_code_pk"
         }
       },
       "uniqueConstraints": {},

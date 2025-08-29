@@ -44,14 +44,24 @@ export async function POST(req: NextRequest) {
 	if (userData)
 		return NextResponse.json({ error: "User already exists" }, { status: 400 });
 
-	const token = createToken(userName);
-
-	await db.insert(schema.users).values({
+	const newUser = await db.insert(schema.users).values({
 		username: userName,
 		password: userPassword,
 		admin: body.admin ?? false,
-		tokens: [token],
+	}).returning({
+		id: schema.users.id,
 	});
+
+	const userId = newUser[0].id;
+
+	const token = createToken(userId);
+
+	await db
+		.update(schema.users)
+		.set({
+			tokens: [token],
+		})
+		.where(eq(schema.users.id, userId));
 
 	return NextResponse.json({
 		success: true,

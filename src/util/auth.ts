@@ -4,18 +4,25 @@ import { sql } from "drizzle-orm";
 import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
 
-export default async function checkAuth(req?: NextRequest, admin?: boolean): Promise<null | typeof schema.users.$inferSelect> {
+export default async function checkAuth(req?: NextRequest, admin?: boolean): Promise<null | Omit<typeof schema.users.$inferSelect, "password">> {
     const cookieStore = await cookies()
 
     const tokenCookie = cookieStore.get("token")
 
     const auth = req?.headers.get("Authorization") || tokenCookie?.value;
+
+    console.log(auth)
     
     if (!auth)
         return null;
 
     const res = await db
-        .select()
+        .select({
+            admin: schema.users.admin,
+            id: schema.users.id,
+            username: schema.users.username,
+            tokens: schema.users.tokens,
+        })
         .from(schema.users)
         .where(
             sql`JSON_TYPE(${schema.users.tokens}) = 'array' AND EXISTS (

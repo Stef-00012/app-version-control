@@ -1,23 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import axios, { type AxiosError } from "axios";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { AuthContext } from "@/contexts/AuthProvider";
 
 export default function Register() {
-	const router = useRouter();
-
-	useEffect(() => {
-		axios
-			.get("/api/auth/login")
-			.then((res) => {
-				if (res.status === 204) {
-					router.push("/dashboard");
-				}
-			})
-			.catch(() => {});
-	}, [router]);
+	const { updateUser } = useContext(AuthContext)
 
 	const [username, setUsername] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
@@ -86,7 +75,7 @@ export default function Register() {
 							});
 
 							if (res.status === 204) {
-								router.push("/dashboard");
+								await updateUser()
 							} else {
 								setError("invalid username or password");
 							}

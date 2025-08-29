@@ -1,4 +1,4 @@
-export default function createToken(username: string) {
+export default function createToken(userId: number) {
 	const charset =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	const array = new Uint8Array(96);
@@ -8,7 +8,7 @@ export default function createToken(username: string) {
 		"",
 	);
 
-	const base64Username = btoa(username);
+	const base64Id = btoa(String(userId));
 
-	return `${base64Username}.${randomPart}`;
+	return `${base64Id}.${randomPart}`;
 }

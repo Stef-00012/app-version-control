@@ -1,33 +1,45 @@
 import db, { schema } from "@/db/db";
 import type { APIAuthPostBody } from "@/types/api";
+import createToken from "@/util/createToken";
+import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-    const body = (await req.json()) as APIAuthPostBody;
+	const body = (await req.json()) as APIAuthPostBody;
 
-    if (!body || !body.username || !body.password)
-        return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+	if (!body || !body.username || !body.password)
+		return NextResponse.json({ error: "Invalid body" }, { status: 400 });
 
-    const token = crypto.randomUUID();
+	const username = body.username;
+	const password = body.password;
 
-    const username = body.username;
-    const password = body.password;
-    const tokens = [token];
+	const newUser = await db
+		.insert(schema.users)
+		.values({
+			username,
+			password,
+		})
+		.returning({
+			id: schema.users.id,
+		});
 
-    await db
-        .insert(schema.users)
-        .values({
-            username,
-            password,
-            tokens,
-        })
+	const userId = newUser[0].id;
 
-    const cookieStore = await cookies();
+	const token = createToken(userId);
 
-    cookieStore.set("token", token, {
-        httpOnly: true,
-    });
+	await db
+		.update(schema.users)
+		.set({
+			tokens: [token],
+		})
+		.where(eq(schema.users.id, userId));
 
-    return new NextResponse(null, { status: 204 });
+	const cookieStore = await cookies();
+
+	cookieStore.set("token", token, {
+		httpOnly: true,
+	});
+
+	return new NextResponse(null, { status: 204 });
 }

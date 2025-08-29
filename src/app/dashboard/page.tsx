@@ -1,7 +1,14 @@
+"use client";
+
+import Navbar from "@/component/Navbar";
+
 export default function Dashboard() {
     return (
-        <div>
-            
-        </div>
+        <>
+            <Navbar />
+            <div className="p-4">
+
+            </div>
+        </>
     )
 }

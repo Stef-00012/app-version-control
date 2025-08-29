@@ -1,5 +1,6 @@
 import type { Viewport } from "next";
 import "./globals.css";
+import AuthProvider from "@/contexts/AuthProvider";
 
 // export const dynamic = "force-static";
 
@@ -17,7 +18,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html data-theme="catppuccin-macchiato" lang="en">
-			<body className="antialiased">{children}</body>
+			<body className="antialiased">
+				<AuthProvider>{children}</AuthProvider>
+			</body>
 		</html>
 	);
 }
