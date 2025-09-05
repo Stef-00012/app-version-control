@@ -1,53 +1,57 @@
 import type { VersionPlatforms } from "./db";
 
 export interface APIPlatformsPostBody {
-    name?: string;
-    id?: string;
-    icon?: string;
+	name?: string;
+	id?: string;
+	icon?: string;
 }
 
 export interface APIPlatformsPatchBody {
-    name?: string;
-    icon?: string;
+	name?: string;
+	icon?: string;
 }
 
 export interface APIUsersPostBody {
-    username?: string;
-    password?: string;
-    admin?: boolean;
+	username?: string;
+	password?: string;
+	admin?: boolean;
 }
 
 export interface APIUsersPatchBody {
-    username?: string;
-    password?: string;
-    admin?: boolean;
+	username?: string;
+	password?: string;
+	admin?: boolean;
 }
 
 export interface APISelfUserPatchBody {
-    username?: string;
-    password?: string;
+	username?: string;
+	password?: string;
 }
 
 export interface APIVersionsPostBody {
-    platforms?: VersionPlatforms;
-    versionName?: string;
-    versionCode?: string;
+	platforms?: VersionPlatforms;
+	versionName?: string;
+	versionCode?: string;
 }
 
 export interface APIVersionsPatchBody {
-    platforms?: VersionPlatforms;
-    versionName?: string;
+	platforms?: VersionPlatforms;
+	versionName?: string;
 }
 
 export interface APIAuthPostBody {
-    username?: string;
-    password?: string;
+	username?: string;
+	password?: string;
 }
 
 export interface APIAppsPostBody {
-    name: string;
+	name?: string;
 }
 
 export interface APIAppsPatchBody {
-    name: string;
+	name?: string;
+}
+
+export interface APIAppsPinPatchBody {
+	pinned?: boolean;
 }

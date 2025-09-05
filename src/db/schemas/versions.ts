@@ -17,7 +17,7 @@ export const versions = sqliteTable(
 			mode: "json",
 		})
 			.notNull()
-			.default("{}")
+			.default({})
 			.$type<VersionPlatforms>(),
 	},
 	(table) => {

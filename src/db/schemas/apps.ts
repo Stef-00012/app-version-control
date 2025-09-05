@@ -11,6 +11,10 @@ export const apps = sqliteTable("apps", {
 		mode: "json",
 	})
 		.notNull()
-		.default("{}")
+		.default({})
 		.$type<VersionPlatforms>(),
+	pinned: integer("pinned", {
+		mode: "boolean"
+	})
+		.default(false)
 });

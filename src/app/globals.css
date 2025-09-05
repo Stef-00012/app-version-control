@@ -1,5 +1,6 @@
 @import url(https://fonts.bunny.net/css?family=atkinson-hyperlegible:400|ubuntu-mono:400);
 @import "tailwindcss";
+@import 'material-symbols';
 
 @plugin "@iconify/tailwind4";
 @plugin "daisyui";
@@ -8,26 +9,49 @@
     default: true;
     color-scheme: "catppuccin-macchiato";
 
-    --color-base-100: #24273a;
-    --color-base-200: #1e2030;
-    --color-base-300: #181926;
-    --color-base-content: #cad3f5;
-    --color-primary: #c6a0f6;
-    --color-primary-content: #cad3f5;
-    --color-secondary: #7dc4e4;
-    --color-secondary-content: #cad3f5;
-    --color-accent: #c6a0f6;
-    --color-accent-content: #181926;
-    --color-neutral: #8bd5ca;
-    --color-neutral-content: #181926;
-    --color-info: #8aadf4;
-    --color-info-content: #cad3f5;
-    --color-success: #a6da95;
-    --color-success-content: #181926;
-    --color-warning: #eed49f;
-    --color-warning-content: #181926;
-    --color-error: #ed8796;
-    --color-error-content: #cad3f5;
+    --color-rosewater: #f4dbd6;
+    --color-flamingo: #f0c6c6;
+    --color-pink: #f5bde6;
+    --color-mauvre: #c6a0f6;
+    --color-red: #ed8796;
+    --color-marron: #ee99a0;
+    --color-peach: #f5a97f;
+    --color-yellow: #eed49f;
+    --color-green: #a6da95;
+    --color-teal: #8bd5ca;
+    --color-sky: #91d7e3;
+    --color-sapphire: #7dc4e4;
+    --color-blue: #8aadf4;
+    --color-lavender: #b7bdf8;
+    --color-text: #cad3f5;
+    --color-subtext1: #b8c0e0;
+    --color-subtext0: #a5adcb;
+    --color-overlay2: #939ab7;
+    --color-overlay1: #8087a2;
+    --color-overlay0: #6e738d;
+    --color-surface2: #5b6078;
+    --color-surface1: #494d64;
+    --color-surface0: #363a4f;
+    --color-base: #24273a;
+    --color-mantle: #1e2030;
+    --color-crust: #181926;
+
+    --color-error: var(--color-red);
+    --color-base-content: var(--color-text);
+    --color-primary-content: var(--color-text);
+    --color-secondary-content: var(--color-text);
+    --color-info-content: var(--color-text);
+    --color-error-content: var(--color-text);
+    --color-info: var(--color-blue);
+    --color-secondary: var(--color-sapphire);
+    --color-pneutral: var(--color-teal);
+    --color-success: var(--color-green);
+    --color-warning: var(--color-yellow);
+    --color-accent: var(--color-mauvre);
+    --color-primary: var(--color-mauvre);
+    --color-base-100: var(--color-base);
+    --color-base-200: var(--color-mantle);
+    --color-base-300: var(--color-crust);
 
     --radius-selector: 1rem;
     --radius-field: 1rem;
@@ -36,7 +60,15 @@
     --size-field: 0.21875rem;
     --border: 1px;
     --depth: 1;
-    --noise: 1;
+    --noise: 0;
+}
+
+:root {
+    --toastify-color-dark: var(--color-surface0);
+    --toastify-color-info: var(--color-info);
+    --toastify-color-success: var(--color-success);
+    --toastify-color-warning: var(--color-warning);
+    --toastify-color-error: var(--color-error);
 }
 
 @theme {

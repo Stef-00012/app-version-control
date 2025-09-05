@@ -10,8 +10,6 @@ export default async function checkAuth(req?: NextRequest, admin?: boolean): Pro
     const tokenCookie = cookieStore.get("token")
 
     const auth = req?.headers.get("Authorization") || tokenCookie?.value;
-
-    console.log(auth)
     
     if (!auth)
         return null;

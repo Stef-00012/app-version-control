@@ -1,6 +1,7 @@
 import type { Viewport } from "next";
 import "./globals.css";
 import AuthProvider from "@/contexts/AuthProvider";
+import { ToastContainer } from "react-toastify";
 
 // export const dynamic = "force-static";
 
@@ -19,7 +20,10 @@ export default function RootLayout({
 	return (
 		<html data-theme="catppuccin-macchiato" lang="en">
 			<body className="antialiased">
-				<AuthProvider>{children}</AuthProvider>
+				<AuthProvider>
+					{children}
+					<ToastContainer theme="dark" />
+				</AuthProvider>
 			</body>
 		</html>
 	);

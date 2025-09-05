@@ -10,7 +10,7 @@ export const users = sqliteTable("users", {
 		mode: "json",
 	})
 		.notNull()
-		.default("[]")
+		.default([])
 		.$type<string[]>(),
 	admin: integer("admin", {
 		mode: "boolean",

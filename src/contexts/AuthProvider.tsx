@@ -33,7 +33,7 @@ export default function AuthProvider({ children }: Props) {
 
 	const updateUser = useCallback(async () => {
 		try {
-			const userDataRes = await axios.get("api/users/me");
+			const userDataRes = await axios.get("/api/users/me");
 
 			const userData = userDataRes.data as AuthData["user"];
 
