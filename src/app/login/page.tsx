@@ -90,7 +90,7 @@ export default function Login() {
 				</button>
 
                 <p className="mt-4 text-base">
-                    Don't have an account?{" "}
+                    Don&apos;t have an account?{" "}
                     <Link href="/register" className="link">Register</Link>
                 </p>
 			</fieldset>

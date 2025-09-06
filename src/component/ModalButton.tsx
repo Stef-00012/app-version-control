@@ -24,7 +24,7 @@ export default function ModalButton({
 			<button
 				type="button"
 				className={openButtonStyle}
-                //@ts-expect-error
+                //@ts-expect-error showModal is a DaisyUI custom method
 				onClick={() => document.getElementById(modalId).showModal()}
 			>
 				{openButtonContent}
