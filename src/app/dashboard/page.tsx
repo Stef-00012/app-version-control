@@ -5,7 +5,7 @@ import ModalButton from "@/component/ModalButton";
 import Navbar from "@/component/Navbar";
 import type schema from "@/db/schema";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function Dashboard() {
@@ -15,14 +15,39 @@ export default function Dashboard() {
 		(typeof schema.apps.$inferSelect)[]
 	>([]);
 
-	useEffect(() => {
-		axios
-			.get("/api/apps")
-			.then((res) => {
-				setAllApps(res.data);
+	const fetchApps = useCallback(async () => {
+		try {
+			const res = await axios.get("/api/apps")
+			
+			if (res.status !== 200) toast.error("Failed to fetch apps");
+
+			const apps = res.data as (typeof schema.apps.$inferSelect)[];
+
+			setAllApps(apps);
+		} catch (e) {
+			console.error(e);
+			
+			toast.error("Failed to fetch apps");
+		}
+	}, [])
+
+	function createApp(name: string) {
+		const promiseRequest = axios
+			.post("/api/apps", {
+				name,
 			})
-			.catch(console.error);
-	}, []);
+			.then(fetchApps);
+
+		toast.promise(promiseRequest, {
+			pending: "Creating app...",
+			success: "App created successfully",
+			error: "Failed to create app",
+		});
+	}
+
+	useEffect(() => {
+		fetchApps();
+	}, [fetchApps]);
 
 	useEffect(() => {
 		setPinnedApps(allApps.filter((app) => app.pinned));
@@ -39,27 +64,16 @@ export default function Dashboard() {
 				<ModalButton modalId="add-app-modal">
 					<h3 className="font-bold text-lg">Add New App</h3>
 
-					<form
-						action={async (formData) => {
-							const name = formData.get("name")?.toString() as string;
+					<form action={async (formData) => {
+						const name = formData.get("name")?.toString() as string;
+						createApp(name);
 
-							try {
-								const res = await axios.post("/api/apps", {
-									name,
-								});
+						const modalId = "add-app-modal";
 
-								const data = res.data as typeof schema.apps.$inferSelect;
+						const modal = document.getElementById(modalId) as HTMLDialogElement;
 
-								setApps((prev) => [...prev, data]);
-
-								toast.success("App created successfully");
-							} catch (e) {
-								console.error(e);
-
-								toast.error("Failed to create app");
-							}
-						}}
-					>
+						modal.close();
+					}}>
 						<fieldset className="fieldset">
 							<legend className="fieldset-legend">App Name</legend>
 							<input
@@ -71,7 +85,10 @@ export default function Dashboard() {
 							/>
 						</fieldset>
 
-						<button type="submit" className="btn w-full rounded-lg">
+						<button
+							type="submit"
+							className="btn w-full rounded-lg"
+						>
 							Create App
 						</button>
 					</form>
@@ -81,25 +98,31 @@ export default function Dashboard() {
 			<div className="p-4">
 				{pinnedApps.length > 0 && (
 					<div>
-						<h1 className="font-bold text-2xl">Pinned Apps</h1>
+						<h1 className="font-bold text-2xl mb-3">Pinned Apps</h1>
 
-						{pinnedApps.map((app) => (
-							<App key={app.appId} app={app} />
-						))}
+						<div className="flex flex-col gap-3">
+							{pinnedApps.map((app) => (
+								<App key={app.appId} app={app} updateApps={fetchApps} />
+							))}
+						</div>
 
-						<div className="divider" />
+						<div className="divider mb-1" />
+
+						<h1 className="font-bold text-2xl mb-3">Apps</h1>
 					</div>
 				)}
 
-				{apps.length > 0 ? (
-					apps.map((app) => <App key={app.appId} app={app} />)
-				) : (
-					<div className="w-full flex justify-center items-center">
-						<p className="text-center w-full text-2xl text-[var(--color-subtext2)] font-bold">
-							No apps found
-						</p>
-					</div>
-				)}
+				<div className="flex flex-col gap-3">
+					{apps.length > 0 ? (
+						apps.map((app) => <App key={app.appId} app={app} updateApps={fetchApps} />)
+					) : (
+						<div className="w-full flex justify-center items-center">
+							<p className="text-center w-full text-2xl text-[var(--color-subtext2)] font-bold">
+								No apps found
+							</p>
+						</div>
+					)}
+				</div>
 			</div>
 		</>
 	);

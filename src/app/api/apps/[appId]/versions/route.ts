@@ -4,7 +4,7 @@ import checkAuth from "@/util/auth";
 import { and, eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 
-export default async function GET(
+export async function GET(
 	req: NextRequest,
 	{ params }: { params: Promise<{ appId: string }> },
 ) {

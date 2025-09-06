@@ -15,6 +15,13 @@
       "when": 1757066479936,
       "tag": "0001_typical_goblin_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1757179656177,
+      "tag": "0002_nebulous_gwen_stacy",
+      "breakpoints": true
     }
   ]
 }

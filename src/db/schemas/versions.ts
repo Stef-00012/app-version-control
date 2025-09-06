@@ -19,6 +19,10 @@ export const versions = sqliteTable(
 			.notNull()
 			.default({})
 			.$type<VersionPlatforms>(),
+		pinned: integer("pinned", {
+			mode: "boolean",
+		})
+			.default(false)
 	},
 	(table) => {
 		return {

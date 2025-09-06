@@ -55,3 +55,7 @@ export interface APIAppsPatchBody {
 export interface APIAppsPinPatchBody {
 	pinned?: boolean;
 }
+
+export interface APIVersionsPinPatchBody {
+	pinned?: boolean;
+}

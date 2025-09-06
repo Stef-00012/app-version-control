@@ -22,7 +22,7 @@ export default function RootLayout({
 			<body className="antialiased">
 				<AuthProvider>
 					{children}
-					<ToastContainer theme="dark" />
+					<ToastContainer theme="dark" closeOnClick />
 				</AuthProvider>
 			</body>
 		</html>
