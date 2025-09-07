@@ -1,6 +1,7 @@
 "use client";
 
 import type schema from "@/db/schema";
+import type { APIResponses } from "@/types/apiResponses";
 import axios, { type AxiosError } from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -42,7 +43,7 @@ export default function AuthProvider({ children }: Props) {
 		try {
 			const userDataRes = await axios.get("/api/users/me");
 
-			const userData = userDataRes.data as AuthData["user"];
+			const userData = userDataRes.data as APIResponses["GET /users/me"];
 
 			setUser(userData);
 

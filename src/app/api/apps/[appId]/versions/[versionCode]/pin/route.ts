@@ -45,7 +45,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ ap
 
     if (!body || typeof body.pinned !== "boolean") return Response.json({ error: "Invalid body" }, { status: 400 });
 
-    const newAppData = await db
+    const newVersionData = await db
         .update(schema.versions)
         .set({
             pinned: body.pinned
@@ -59,5 +59,5 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ ap
         )
         .returning();
 
-    return Response.json(newAppData[0]);
+    return Response.json(newVersionData[0]);
 }

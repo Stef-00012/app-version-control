@@ -5,6 +5,8 @@ import checkAuth from "@/util/auth";
 import { eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 
+const passwordPattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+
 export async function GET(req: NextRequest) {
 	const authUser = await checkAuth(req);
 
@@ -24,6 +26,9 @@ export async function PATCH(req: NextRequest) {
 
 	if (!body || (!body.username && !body.password))
 		return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+
+	if (body.password && !passwordPattern.test(body.password))
+		return NextResponse.json({ error: "Password too weak" }, { status: 400 });
 
 	await db
 		.update(schema.users)

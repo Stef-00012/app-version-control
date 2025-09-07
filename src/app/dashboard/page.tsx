@@ -5,6 +5,7 @@ import Input from "@/component/Input";
 import ModalButton from "@/component/ModalButton";
 import Navbar from "@/component/Navbar";
 import type schema from "@/db/schema";
+import type { APIResponses } from "@/types/apiResponses";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -22,7 +23,7 @@ export default function Dashboard() {
 			
 			if (res.status !== 200) toast.error("Failed to fetch apps");
 
-			const apps = res.data as (typeof schema.apps.$inferSelect)[];
+			const apps = res.data as APIResponses["GET /apps"];
 
 			setAllApps(apps);
 		} catch (e) {

@@ -5,6 +5,7 @@ import ModalButton from "@/component/ModalButton";
 import Navbar from "@/component/Navbar";
 import Version from "@/component/Version";
 import type schema from "@/db/schema";
+import type { APIResponses } from "@/types/apiResponses";
 import axios from "axios";
 import { use, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -35,7 +36,7 @@ export default function AppView({
 
 			if (res.status !== 200) toast.error("Failed to fetch apps");
 
-			const app = res.data as typeof schema.apps.$inferSelect;
+			const app = res.data as APIResponses["GET /apps/:id"];
 
 			setApp(app);
 		} catch (e) {
@@ -51,7 +52,7 @@ export default function AppView({
 
 			if (res.status !== 200) toast.error("Failed to fetch versions");
 
-			const versions = res.data as (typeof schema.versions.$inferSelect)[];
+			const versions = res.data as APIResponses["GET /apps/:id/versions"];
 
 			setAllVersions(versions);
 		} catch (e) {
@@ -67,7 +68,7 @@ export default function AppView({
 
 			if (res.status !== 200) toast.error("Failed to fetch platforms");
 
-			const platforms = res.data as (typeof schema.platforms.$inferSelect)[];
+			const platforms = res.data as APIResponses["GET /platforms"];
 
 			setPlatforms(platforms);
 		} catch (e) {
