@@ -17,17 +17,24 @@ interface Props {
 }
 
 interface AuthData {
-	user: Omit<typeof schema.users.$inferSelect, "password"> | null;
+	user: Omit<typeof schema.users.$inferSelect, "password">;
 	updateUser: () => Promise<AuthData["user"]>;
 }
 
+const defaultLoadingUser: AuthData["user"] = {
+	id: -1,
+	username: "Loading...",
+	admin: false,
+	tokens: [],
+}
+
 export const AuthContext = createContext<AuthData>({
-	user: null,
-	updateUser: async () => null,
+	user: defaultLoadingUser,
+	updateUser: async () => defaultLoadingUser,
 });
 
 export default function AuthProvider({ children }: Props) {
-	const [user, setUser] = useState<AuthData["user"]>(null);
+	const [user, setUser] = useState<AuthData["user"]>(defaultLoadingUser);
 	const router = useRouter();
 	const pathname = usePathname();
 
@@ -51,9 +58,9 @@ export default function AuthProvider({ children }: Props) {
 			if (error.status !== 401) console.error(error);
 
 			if (!["/login", "/register"].includes(pathname)) router.replace("/login");
-			setUser(null);
+			setUser(defaultLoadingUser);
 
-			return null;
+			return defaultLoadingUser;
 		}
 	}, [pathname, router]);
 

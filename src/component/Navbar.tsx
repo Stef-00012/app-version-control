@@ -1,6 +1,7 @@
 "use client";
 
 import { AuthContext } from "@/contexts/AuthProvider";
+import Link from "next/link";
 import { useContext } from "react";
 
 export default function Navbar() {
@@ -15,9 +16,9 @@ export default function Navbar() {
 			</div>
 			<div className="flex gap-2">
 				<div className="flex-1">
-					<a className="btn btn-ghost text-xl" href="/dashboard/settings">
+					<Link className={`btn btn-ghost text-xl ${user.id === -1 ? "pointer-events-none" : ""}`} href="/dashboard/settings">
 						{user?.username}
-					</a>
+					</Link>
 				</div>
 			</div>
 		</div>

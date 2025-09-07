@@ -4,6 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
 import ModalButton from "./ModalButton";
+import Input from "./Input";
 
 interface Props {
 	app: typeof schema.apps.$inferSelect;
@@ -100,17 +101,13 @@ export default function App({ app, updateApps }: Props) {
 							modal.close();
 						}}
 					>
-						<fieldset className="fieldset">
-							<legend className="fieldset-legend">App Name</legend>
-							<input
-								name="name"
-								type="text"
-								className="input rounded-lg! w-full"
-								placeholder="My App"
-								defaultValue={app.appName}
-								required
-							/>
-						</fieldset>
+						<Input
+							title="App Name"
+							name="name"
+							placeholder="My App"
+							defaultValue={app.appName}
+							required
+						/>
 
 						<button type="submit" className="btn w-full rounded-lg">
 							Update App

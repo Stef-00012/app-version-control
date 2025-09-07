@@ -1,6 +1,7 @@
 "use client";
 
 import App from "@/component/App";
+import Input from "@/component/Input";
 import ModalButton from "@/component/ModalButton";
 import Navbar from "@/component/Navbar";
 import type schema from "@/db/schema";
@@ -74,16 +75,12 @@ export default function Dashboard() {
 
 						modal.close();
 					}}>
-						<fieldset className="fieldset">
-							<legend className="fieldset-legend">App Name</legend>
-							<input
-								name="name"
-								type="text"
-								className="input rounded-lg! w-full"
-								placeholder="My App"
-								required
-							/>
-						</fieldset>
+						<Input
+							title="App Name"
+							name="name"
+							placeholder="My App"
+							required
+						/>
 
 						<button
 							type="submit"

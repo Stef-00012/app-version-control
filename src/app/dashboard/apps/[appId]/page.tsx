@@ -1,5 +1,6 @@
 "use client";
 
+import Input from "@/component/Input";
 import ModalButton from "@/component/ModalButton";
 import Navbar from "@/component/Navbar";
 import Version from "@/component/Version";
@@ -139,27 +140,20 @@ export default function AppView({
 							modal.close();
 						}}
 					>
-						<fieldset className="fieldset">
-							<legend className="fieldset-legend">Version Name</legend>
-							<input
-								name="versionName"
-								type="text"
-								className="input rounded-lg! w-full"
-								placeholder="v1.2.3"
-								required
-							/>
-						</fieldset>
+						<Input
+							title="Version Name"
+							name="versionName"
+							placeholder="v1.2.3"
+							required
+						/>
 
-						<fieldset className="fieldset">
-							<legend className="fieldset-legend">Version Code</legend>
-							<input
-								name="versionCode"
-								type="number"
-								className="input rounded-lg! w-full"
-								placeholder="123"
-								required
-							/>
-						</fieldset>
+						<Input
+							title="Version Code"
+							name="versionCode"
+							type="number"
+							placeholder="123"
+							required
+						/>
 
 						<button type="submit" className="btn w-full rounded-lg">
 							Create Version

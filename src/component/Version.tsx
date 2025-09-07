@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import ModalButton from "./ModalButton";
 import Toggle from "./Toggle";
 import type { VersionPlatforms } from "@/types/db";
+import Input from "./Input";
 
 interface Props {
 	appId: string;
@@ -106,17 +107,13 @@ export default function Version({
 							modal.close();
 						}}
 					>
-						<fieldset className="fieldset">
-							<legend className="fieldset-legend">Version Name</legend>
-							<input
-								name="versionName"
-								type="text"
-								className="input rounded-lg! w-full"
-								placeholder="v1.2.3"
-								defaultValue={version.versionName}
-								required
-							/>
-						</fieldset>
+						<Input
+							title="Version Name"
+							name="versionName"
+							placeholder="v1.2.3"
+							defaultValue={version.versionName}
+							required
+						/>
 
 						{platforms.map((platform) => (
 							<div className="my-1" key={platform.id}>
