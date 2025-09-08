@@ -1,9 +1,9 @@
 "use client";
 
-import Input from "@/component/Input";
-import ModalButton from "@/component/ModalButton";
-import Navbar from "@/component/Navbar";
-import Version from "@/component/Version";
+import Input from "@/components/Input";
+import ModalButton from "@/components/ModalButton";
+import Navbar from "@/components/Navbar";
+import Version from "@/components/Version";
 import type schema from "@/db/schema";
 import type { APIResponses } from "@/types/apiResponses";
 import axios from "axios";
@@ -199,7 +199,7 @@ export default function AppView({
 						))
 					) : (
 						<div className="w-full flex justify-center items-center">
-							<p className="text-center w-full text-2xl text-[var(--color-subtext2)] font-bold">
+							<p className="text-center w-full text-2xl text--overlay2 font-bold">
 								No versions found
 							</p>
 						</div>

@@ -1,11 +1,12 @@
 "use client";
 
-import Input from "@/component/Input";
-import Navbar from "@/component/Navbar";
-import Token from "@/component/Token";
+import Input from "@/components/Input";
+import Navbar from "@/components/Navbar";
+import Token from "@/components/Token";
 import { AuthContext } from "@/contexts/AuthProvider";
 import type { APIResponses } from "@/types/apiResponses";
 import axios from "axios";
+import Link from "next/link";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -178,9 +179,15 @@ export default function UserSettings() {
 				</div>
 
 				<div className="flex flex-col gap-3">
-					{user.tokens.map((token) => (
-						<Token key={token} token={token} updateUser={updateUser} isCurrentSession={token === sessionToken} />
-					))}
+					{user.tokens
+						.sort((a, b) => (a === sessionToken ? -1 : b === sessionToken ? 1 : 0))
+						.map((token) => (
+							<Token key={token} token={token} updateUser={updateUser} isCurrentSession={!sessionToken || token === sessionToken} />
+						))}
+				</div>
+				
+				<div className="mt-2">
+					<Link href="/docs" className="link text-accent">API documentation</Link>
 				</div>
 			</div>
 		</>

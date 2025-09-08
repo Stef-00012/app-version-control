@@ -1,9 +1,9 @@
 "use client";
 
-import App from "@/component/App";
-import Input from "@/component/Input";
-import ModalButton from "@/component/ModalButton";
-import Navbar from "@/component/Navbar";
+import App from "@/components/App";
+import Input from "@/components/Input";
+import ModalButton from "@/components/ModalButton";
+import Navbar from "@/components/Navbar";
 import type schema from "@/db/schema";
 import type { APIResponses } from "@/types/apiResponses";
 import axios from "axios";
@@ -115,7 +115,7 @@ export default function Dashboard() {
 						apps.map((app) => <App key={app.appId} app={app} updateApps={fetchApps} />)
 					) : (
 						<div className="w-full flex justify-center items-center">
-							<p className="text-center w-full text-2xl text-[var(--color-subtext2)] font-bold">
+							<p className="text-center w-full text-2xl text-overlay2 font-bold">
 								No apps found
 							</p>
 						</div>

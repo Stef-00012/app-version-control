@@ -2,13 +2,7 @@
 @import "tailwindcss";
 @import 'material-symbols';
 
-@plugin "@iconify/tailwind4";
-@plugin "daisyui";
-@plugin "daisyui/theme" {
-    name: "catppuccin-macchiato";
-    default: true;
-    color-scheme: "catppuccin-macchiato";
-
+@theme {
     --color-rosewater: #f4dbd6;
     --color-flamingo: #f0c6c6;
     --color-pink: #f5bde6;
@@ -35,6 +29,14 @@
     --color-base: #24273a;
     --color-mantle: #1e2030;
     --color-crust: #181926;
+}
+
+@plugin "@iconify/tailwind4";
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+    name: "catppuccin-macchiato";
+    default: true;
+    color-scheme: "catppuccin-macchiato";
 
     --color-error: var(--color-red);
     --color-base-content: var(--color-text);

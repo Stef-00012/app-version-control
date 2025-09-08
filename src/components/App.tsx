@@ -1,7 +1,7 @@
 import type schema from "@/db/schema";
 import axios from "axios";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import ModalButton from "./ModalButton";
 import Input from "./Input";
@@ -13,6 +13,7 @@ interface Props {
 
 export default function App({ app, updateApps }: Props) {
 	const appUrl = `/dashboard/apps/${app.appId}`;
+	const router = useRouter();
 
 	async function togglePin() {
 		const requestPromise = axios
@@ -55,7 +56,7 @@ export default function App({ app, updateApps }: Props) {
 	}
 
 	function openApp() {
-		return redirect(appUrl);
+		return router.push(appUrl);
 	}
 
 	return (
@@ -132,7 +133,7 @@ export default function App({ app, updateApps }: Props) {
 					type="button"
 					onClick={deleteApp}
 				>
-					<span className="material-symbols-rounded text-[var(--color-red)]">delete</span>
+					<span className="material-symbols-rounded text-red">delete</span>
 				</button>
 			</div>
 		</div>

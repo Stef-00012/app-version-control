@@ -1,71 +1,77 @@
 import type schema from "@/db/schema";
 import axios from "axios";
 import { toast } from "react-toastify";
+import ModalButton from "./ModalButton";
+import Toggle from "./Toggle";
+import type { VersionPlatforms } from "@/types/db";
+import Input from "./Input";
 
 interface Props {
-	token: string;
-    isCurrentSession: boolean;
-	updateUser: () => Promise<Omit<typeof schema.users.$inferSelect, "password">>;
+	appId: string;
+	version: typeof schema.versions.$inferSelect;
+	platforms: (typeof schema.platforms.$inferSelect)[];
+	updateVersions: () => Promise<void>;
 }
 
-export default function Token({
-	token,
-    isCurrentSession,
-    updateUser,
+export default function Version({
+	appId,
+	version,
+	updateVersions,
+	platforms,
 }: Props) {
-	async function deleteToken() {
+	async function togglePin() {
 		const requestPromise = axios
-			.patch(`/api/users/me/tokens`, {
-                token
-            })
-			.then(updateUser);
+			.patch(`/api/apps/${appId}/versions/${version.versionCode}/pin`, {
+				pinned: !version.pinned,
+			})
+			.then(updateVersions);
 
 		toast.promise(requestPromise, {
-			pending: `Deleting token...`,
-			success: `Token deleted successfully`,
-			error: `Failed to delete the token`,
+			pending: `${version.pinned ? "Unpinning" : "Pinning"} version...`,
+			success: `Version ${version.pinned ? "unpinned" : "pinned"} successfully`,
+			error: `Failed to ${version.pinned ? "unpin" : "pin"} the version`,
 		});
 	}
 
-    function copyToken() {
-        navigator.clipboard.writeText(token);
+	async function deleteVersion() {
+		const requestPromise = axios
+			.delete(`/api/apps/${appId}/versions/${version.versionCode}`)
+			.then(updateVersions);
 
-        toast.success("Token copied to clipboard");
-    }
+		toast.promise(requestPromise, {
+			pending: `Deleting version...`,
+			success: `Version deleted successfully`,
+			error: `Failed to delete the version`,
+		});
+	}
+
+	async function editVersion(versionName: string, newPlatforms: VersionPlatforms) {
+		const requestPromise = axios
+			.patch(`/api/apps/${appId}/versions/${version.versionCode}`, {
+				versionName,
+				platforms: newPlatforms,
+			})
+			.then(updateVersions);
+
+		toast.promise(requestPromise, {
+			pending: `Updating version...`,
+			success: `Version updated successfully`,
+			error: {
+				render({ data }) {
+					if (axios.isAxiosError(data) && data.response?.data?.error)
+						return data.response.data.error;
+
+					return "Failed to update version";
+				},
+			},
+		});
+	}
 
 	return (
 		<div className="border border-[var(--color-overlay0)] p-4 rounded-lg shadow hover:shadow-md transition flex flex-row justify-between items-center">
-            <h2
-                className={`font-bold text-lg overflow-hidden text-ellipsis whitespace-nowrap flex mr-5 ${isCurrentSession ? "text-gray-500" : ""}`}
-                title={token}
-            >
-                {token}
-            </h2>
+			<h2 className="font-bold text-2xl">{version.versionName}</h2>
 
-            <div className="gap-2 flex flex-row">
-                <button
-                    className="btn btn-ghost btn-base-300 p-2 rounded-md border-2 border-base-300 px-1"
-                    type="button"
-                    onClick={copyToken}
-                >
-                    <span className="material-symbols-rounded">
-                        content_copy
-                    </span>
-                </button>
-
-                <button
-                    className={`btn btn-ghost btn-base-300 p-2 rounded-md border-2 border-base-300 px-1 ${isCurrentSession ? "opacity-50 cursor-not-allowed" : ""}`}
-                    type="button"
-                    onClick={deleteToken}
-                    disabled={isCurrentSession}
-                >
-                    <span className={`material-symbols-rounded text-[var(--color-red)]`}>
-                        delete
-                    </span>
-                </button>
-            </div>
-
-			{/* <div className="gap-2 flex flex-row">
+			<div className="gap-2 flex flex-row">
 				<ModalButton
 					modalId={`edit-version-modal_${version.versionCode}`}
 					openButtonStyle="btn btn-ghost btn-base-300 p-2 rounded-md border-2 border-base-300 px-1"
@@ -138,11 +144,11 @@ export default function Token({
 					type="button"
 					onClick={deleteVersion}
 				>
-					<span className="material-symbols-rounded text-[var(--color-red)]">
+					<span className="material-symbols-rounded text-red">
 						delete
 					</span>
 				</button>
-			</div> */}
+			</div>
 		</div>
 	);
 }

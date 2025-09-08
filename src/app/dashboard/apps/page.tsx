@@ -1,5 +1,7 @@
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Apps() {
-    return redirect("/dashboard");
+    const router = useRouter();
+
+    return router.push("/dashboard");
 }
