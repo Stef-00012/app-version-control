@@ -1,25 +1,45 @@
 "use client";
 
-import { useContext, useRef, useState } from "react";
-import axios, { type AxiosError } from "axios";
+import { useCallback, useContext, useRef, useState } from "react";
+import axios from "axios";
 import Link from "next/link";
 import { AuthContext } from "@/contexts/AuthProvider";
+import { toast } from "react-toastify";
 
 export default function Register() {
 	const { updateUser } = useContext(AuthContext)
 
 	const [username, setUsername] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
-	const [error, setError] = useState<string | null>(null);
 
 	const input = useRef<HTMLInputElement>(null);
+
+	const createUser = useCallback(async (username: string, password: string) => {
+		const promise = axios
+			.post("/api/auth/register", {
+				username,
+				password
+			})
+			.then(updateUser);
+		
+		toast.promise(promise, {
+			pending: "Creating account...",
+			success: "Account created!",
+			error: {
+				render({ data }) {
+					if (axios.isAxiosError(data) && data.response?.data?.error)
+						return data.response.data.error;
+
+					return "Failed to create user";
+				},
+			},
+		});
+	}, [updateUser])
 
 	return (
 		<div className="flex items-center justify-center min-h-screen">
 			<fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
 				<legend className="fieldset-legend text-2xl">Register</legend>
-
-				{error && <p className="text-error text-lg">{error}</p>}
 
 				<label className="label text-base" htmlFor="username">
 					Username
@@ -66,33 +86,7 @@ export default function Register() {
 					className="btn btn-neutral-content text-white rounded-lg mt-4"
 					type="submit"
 					onClick={async () => {
-						setError(null);
-
-						try {
-							const res = await axios.post("/api/auth/register", {
-								username,
-								password,
-							});
-
-							if (res.status === 204) {
-								await updateUser()
-							} else {
-								setError("invalid username or password");
-							}
-						} catch (e) {
-							const error = e as AxiosError;
-
-							if (error.status === 400)
-								return setError("Username already in use");
-
-							console.error(e);
-
-							setError(
-								((error.response?.data as Record<string, unknown>)?.error as
-									| string
-									| undefined) || "Something went wrong...",
-							);
-						}
+						createUser(username, password);
 					}}
 				>
 					Register

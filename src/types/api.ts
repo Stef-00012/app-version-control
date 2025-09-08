@@ -3,12 +3,10 @@ import type { VersionPlatforms } from "./db";
 export interface APIPlatformsPostBody {
 	name?: string;
 	id?: string;
-	icon?: string;
 }
 
 export interface APIPlatformsPatchBody {
 	name?: string;
-	icon?: string;
 }
 
 export interface APIUsersPostBody {

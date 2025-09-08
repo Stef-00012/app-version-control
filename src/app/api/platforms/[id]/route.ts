@@ -25,7 +25,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
     const body = await req.json() as APIPlatformsPatchBody;
 
-    if (!body) return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+    if (!body || !body.name) return NextResponse.json({ error: "Invalid body" }, { status: 400 });
 
     const { id } = await params;
 

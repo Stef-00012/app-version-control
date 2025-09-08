@@ -14,6 +14,12 @@ export async function POST(req: NextRequest) {
 	const username = body.username;
 	const password = body.password;
 
+	const existingUser = await db.query.users.findFirst({
+		where: eq(schema.users.username, username),
+	})
+
+	if (existingUser) return NextResponse.json({ error: "Username already in use" }, { status: 403 });
+
 	const newUser = await db
 		.insert(schema.users)
 		.values({

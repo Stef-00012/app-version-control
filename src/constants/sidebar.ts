@@ -15,17 +15,22 @@ export const sidebarItems: SidebarItem[] = [
                     {
                         title: "/:appId",
                         children: [
-                            {
-                                title: "Model",
-                                href: "/docs/models/app"
-                            },
+                            // {
+                            //     title: "Model",
+                            //     href: "/docs/models/app"
+                            // },
                             {
                                 title: "Methods",
                                 href: "/docs/api/apps/:appId"
                             },
                             {
                                 title: "/pin",
-                                href: "/docs/api/apps/:appId/pin"
+                                children: [
+                                    {
+                                        title: "Methods",
+                                        href: "/docs/api/apps/:appId/pin"
+                                    }
+                                ]
                             },
                             {
                                 title: "/versions",
@@ -37,17 +42,22 @@ export const sidebarItems: SidebarItem[] = [
                                     {
                                         title: "/:versionCode",
                                         children: [
-                                            {
-                                                title: "Model",
-                                                href: "/docs/models/version"
-                                            },
+                                            // {
+                                            //     title: "Model",
+                                            //     href: "/docs/models/version"
+                                            // },
                                             {
                                                 title: "Methods",
                                                 href: "/docs/api/apps/:appId/versions/:versionCode"
                                             },
                                             {
                                                 title: "/pin",
-                                                href: "/docs/api/apps/:appId/versions/:versionCode/pin"
+                                                children: [
+                                                    {
+                                                        title: "Methods",
+                                                        href: "/docs/api/apps/:appId/versions/:versionCode/pin"
+                                                    }
+                                                ]
                                             }
                                         ]
                                     }
@@ -62,11 +72,21 @@ export const sidebarItems: SidebarItem[] = [
                 children: [
                     {
                         title: "/login",
-                        href: "/docs/api/auth/login"
+                        children: [
+                            {
+                                title: "Methods",
+                                href: "/docs/api/auth/login"
+                            }
+                        ]
                     },
                     {
                         title: "/register",
-                        href: "/docs/api/auth/register"
+                        children: [
+                            {
+                                title: "Methods",
+                                href: "/docs/api/auth/register"
+                            }
+                        ]
                     }
                 ]
             },
@@ -80,10 +100,10 @@ export const sidebarItems: SidebarItem[] = [
                     {
                         title: "/:platformId",
                         children: [
-                            {
-                                title: "Model",
-                                href: "/docs/models/platform"
-                            },
+                            // {
+                            //     title: "Model",
+                            //     href: "/docs/models/platform"
+                            // },
                             {
                                 title: "Methods",
                                 href: "/docs/api/platforms/:platformId"
@@ -102,10 +122,10 @@ export const sidebarItems: SidebarItem[] = [
                     {
                         title: "/:userId",
                         children: [
-                            {
-                                title: "Model",
-                                href: "/docs/models/user"
-                            },
+                            // {
+                            //     title: "Model",
+                            //     href: "/docs/models/user"
+                            // },
                             {
                                 title: "Methods",
                                 href: "/docs/api/users/:userId"
@@ -115,21 +135,31 @@ export const sidebarItems: SidebarItem[] = [
                     {
                         title: "/me",
                         children: [
-                            {
-                                title: "Model",
-                                href: "/docs/models/selfUser"
-                            },
+                            // {
+                            //     title: "Model",
+                            //     href: "/docs/models/selfUser"
+                            // },
                             {
                                 title: "Methods",
                                 href: "/docs/api/users/me"
                             },
                             {
                                 title: "/tokens",
-                                href: "/docs/api/users/me/tokens"
+                                children: [
+                                    {
+                                        title: "Methods",
+                                        href: "/docs/api/users/me/tokens"
+                                    }
+                                ]
                             },
                             {
                                 title: "/sessionToken",
-                                href: "/docs/api/users/me/sessionToken"
+                                children: [
+                                    {
+                                        title: "Methods",
+                                        href: "/docs/api/users/me/sessionToken"
+                                    }
+                                ]
                             }
                         ]
                     }

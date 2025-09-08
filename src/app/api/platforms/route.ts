@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
         where: eq(schema.platforms.name, platformName),
     });
 
-    if (platformData) return NextResponse.json({ error: "Platform already exists" }, { status: 400 });
+    if (platformData) return NextResponse.json({ error: "Platform already exists" }, { status: 403 });
 
     const platform = await db.insert(schema.platforms).values({
         name: platformName,

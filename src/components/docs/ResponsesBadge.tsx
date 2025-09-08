@@ -4,12 +4,13 @@ const colors = {
 	204: "bg-green-400 text-black",
 	400: "bg-red-400 text-black",
 	401: "bg-red-400 text-black",
+	403: "bg-red-400 text-black",
 	404: "bg-red-400 text-black",
 	429: "bg-red-400 text-black",
 };
 
 interface ApiBadgeProps {
-	type: 200 | 201 | 204 | 400 | 401 | 404 | 429;
+	type: 200 | 201 | 204 | 400 | 401 | 403 | 404 | 429;
 	contentType: "application/json" | "No Content";
 }
 
