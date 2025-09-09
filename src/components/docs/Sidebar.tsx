@@ -96,15 +96,26 @@ export function Sidebar({ children }: { children: ReactNode }) {
 				>
 					<span className="material-symbols-outlined">menu</span>
 				</label>
-				{children}
+
+				<div className="lg:ml-80">
+					{children}
+				</div>
 			</div>
+
 			<div className="drawer-side">
 				<label
 					htmlFor={drawerId}
 					aria-label="close sidebar"
 					className="drawer-overlay"
-				></label>
-				<ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+				/>
+				<ul
+					className="
+						menu bg-base-200 text-base-content min-h-full w-80 p-4
+						lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:z-40
+						lg:border-r lg:border-base-300
+						lg:overflow-y-auto
+					"
+				>
 					{/* Header */}
 					<div className="border-b border-base-300">
 						<div className="flex justify-between">
