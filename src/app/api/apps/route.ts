@@ -9,7 +9,9 @@ export async function GET(req: NextRequest) {
 
 	if (!authUser) return new Response("Unauthorized", { status: 401 });
 
-	const appsData = authUser.admin
+	const showAll = req.nextUrl.searchParams.get("showAll");
+
+	const appsData = (authUser.admin && showAll === "true")
 		? await db.query.apps.findMany({})
 		: await db.query.apps.findMany({
 				where: eq(schema.apps.ownerId, authUser.id),
