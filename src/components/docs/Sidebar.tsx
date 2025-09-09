@@ -89,7 +89,7 @@ export function Sidebar({ children }: { children: ReactNode }) {
 	return (
 		<div className="drawer lg:drawer-open">
 			<input id={drawerId} type="checkbox" className="drawer-toggle" />
-			<div className="drawer-content flex flex-col justify-center">
+			<div className="drawer-content flex flex-col">
 				<label
 					htmlFor={drawerId}
 					className="btn btn-circle drawer-button lg:hidden absolute top-4 left-4"

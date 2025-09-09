@@ -1,9 +1,20 @@
-import type { Viewport } from "next";
-import "./globals.css";
+import type { Metadata, Viewport } from "next";
 import AuthProvider from "@/contexts/AuthProvider";
 import { ToastContainer } from "react-toastify";
 
-// export const dynamic = "force-static";
+import "./globals.css";
+
+export const metadata: Metadata = {
+    title: "App Version Control",
+    description:
+        "A version control API to know if there an available update in anyof your apps and if so, prompt the user to update.",
+    openGraph: {
+        title: "App Version Control",
+        description:
+            "A version control API to know if there an available update in anyof your apps and if so, prompt the user to update.",
+        type: "website",
+    },
+};
 
 export const viewport: Viewport = {
 	colorScheme: "dark",
