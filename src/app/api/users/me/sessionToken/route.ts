@@ -6,5 +6,5 @@ export async function GET(req: NextRequest) {
 
     if (!authData) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
-    return NextResponse.json(authData)
+    return NextResponse.json({ token: authData.token })
 }

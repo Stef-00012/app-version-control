@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
 
     if (!authUser) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
-    return NextResponse.json(authUser.tokens)
+    return NextResponse.json({ tokens: authUser.tokens })
 }
 
 export async function PATCH(req: NextRequest) {
@@ -23,7 +23,7 @@ export async function PATCH(req: NextRequest) {
 
     const removeToken = body.token
 
-    if (!authUser.tokens.includes(removeToken)) return NextResponse.json({ error: "Invalid token" }, { status: 400 })
+    if (!authUser.tokens.includes(removeToken)) return NextResponse.json({ error: "Token not found" }, { status: 404 })
 
     const newTokens = authUser.tokens.filter(token => token !== removeToken)
 

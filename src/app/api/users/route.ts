@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 	});
 
 	if (userData)
-		return NextResponse.json({ error: "User already exists" }, { status: 400 });
+		return NextResponse.json({ error: "User already exists" }, { status: 403 });
 
 	const newUser = await db.insert(schema.users).values({
 		username: userName,
@@ -66,5 +66,5 @@ export async function POST(req: NextRequest) {
 	return NextResponse.json({
 		success: true,
 		token: token,
-	});
+	}, { status: 201 });
 }

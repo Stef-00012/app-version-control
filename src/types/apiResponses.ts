@@ -48,11 +48,12 @@ export interface APIResponses {
 	"DELETE /users/me": null;
 
 	"GET /users/me/sessionToken": {
-		user: Omit<typeof schema.users.$inferSelect, "password">;
 		token: string;
 	};
 
-	"GET /users/me/tokens": string[];
+	"GET /users/me/tokens": {
+		tokens: string[];
+	};
 	"PATCH /users/me/tokens": null;
 	"POST /users/me/tokens": { token: string };
 }

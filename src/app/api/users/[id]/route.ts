@@ -20,6 +20,7 @@ export async function GET(
 		where: eq(schema.users.id, Number(id)),
 		columns: {
 			password: false,
+			tokens: false,
 		},
 	});
 
@@ -72,11 +73,6 @@ export async function DELETE(
 
 	if (!authUser)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
-	const body = (await req.json()) as APIUsersPatchBody;
-
-	if (!body)
-		return NextResponse.json({ error: "Invalid body" }, { status: 400 });
 
 	const { id } = await params;
 

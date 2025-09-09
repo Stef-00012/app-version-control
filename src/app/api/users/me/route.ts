@@ -28,7 +28,7 @@ export async function PATCH(req: NextRequest) {
 		return NextResponse.json({ error: "Invalid body" }, { status: 400 });
 
 	if (body.password && !passwordPattern.test(body.password))
-		return NextResponse.json({ error: "Password too weak" }, { status: 400 });
+		return NextResponse.json({ error: "Password too weak" }, { status: 403 });
 
 	await db
 		.update(schema.users)
