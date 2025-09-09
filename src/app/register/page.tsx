@@ -41,7 +41,7 @@ export default function Register() {
 			<fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
 				<legend className="fieldset-legend text-2xl">Register</legend>
 
-				<label className="label text-base" htmlFor="username">
+				<label className="label text-text" htmlFor="username">
 					Username
 				</label>
 				<input
@@ -54,7 +54,7 @@ export default function Register() {
 					}}
 				/>
 
-				<label className="label text-base" htmlFor="password">
+				<label className="label text-text" htmlFor="password">
 					Password
 				</label>
 				<input
@@ -92,9 +92,9 @@ export default function Register() {
 					Register
 				</button>
 
-				<p className="mt-4 text-base">
+				<p className="mt-4 text-text">
                     Already have an account?{" "}
-                    <Link href="/login" className="link">Login</Link>
+                    <Link href="/login" className="link text-accent">Login</Link>
                 </p>
 			</fieldset>
 		</div>

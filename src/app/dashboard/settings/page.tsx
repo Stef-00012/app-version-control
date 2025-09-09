@@ -57,27 +57,52 @@ export default function UserSettings() {
 		[updateUser],
 	);
 
-	const createToken = useCallback(
-		async () => {
-			const requestPromise = axios
-				.post("/api/users/me/tokens")
-				.then(updateUser);
+	const createToken = useCallback(async () => {
+		const requestPromise = axios.post("/api/users/me/tokens").then(updateUser);
 
-			await toast.promise(requestPromise, {
-				pending: "Creating token...",
-				success: "Token created",
-				error: {
-					render({ data }) {
-						if (axios.isAxiosError(data) && data.response?.data?.error)
-							return data.response.data.error;
+		await toast.promise(requestPromise, {
+			pending: "Creating token...",
+			success: "Token created",
+			error: {
+				render({ data }) {
+					if (axios.isAxiosError(data) && data.response?.data?.error)
+						return data.response.data.error;
 
-						return "Failed to create token";
-					},
+					return "Failed to create token";
 				},
-			});
-		},
-		[updateUser],
-	);
+			},
+		});
+	}, [updateUser]);
+
+	const deleteAccount = useCallback(async () => {
+		const confirmation = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+
+		if (!confirmation) return;
+
+		const requestPromise = axios
+			.delete("/api/users/me")
+			.then(updateUser);
+
+		toast.promise(requestPromise, {
+			pending: `Deleting account...`,
+			success: `Account deleted successfully`,
+			error: `Failed to delete account`,
+		});
+	}, [updateUser])
+
+	const logout = useCallback(async () => {
+		const requestPromise = axios
+			.patch(`/api/users/me/tokens`, {
+				token: sessionToken,
+			})
+			.then(updateUser);
+
+		toast.promise(requestPromise, {
+			pending: `Logging out...`,
+			success: `Logged out successfully`,
+			error: `Failed to logout`,
+		});
+	}, [sessionToken, updateUser]);
 
 	useEffect(() => {
 		setIsLoading(user.id === -1);
@@ -174,20 +199,53 @@ export default function UserSettings() {
 						className="btn bg-base-300 hover:bg-base-200 hover:border-1 hover:border-[#43475D] p-2 mb-3 rounded-md"
 						onClick={createToken}
 					>
-						<span className="material-symbols-rounded text-primary-content">add</span>
+						<span className="material-symbols-rounded text-primary-content">
+							add
+						</span>
 					</button>
 				</div>
 
 				<div className="flex flex-col gap-3">
 					{user.tokens
-						.sort((a, b) => (a === sessionToken ? -1 : b === sessionToken ? 1 : 0))
+						.sort((a, b) =>
+							a === sessionToken ? -1 : b === sessionToken ? 1 : 0,
+						)
 						.map((token) => (
-							<Token key={token} token={token} updateUser={updateUser} isCurrentSession={!sessionToken || token === sessionToken} />
+							<Token
+								key={token}
+								token={token}
+								updateUser={updateUser}
+								isCurrentSession={!sessionToken || token === sessionToken}
+							/>
 						))}
 				</div>
-				
+
 				<div className="mt-2">
-					<Link href="/docs" className="link text-accent">API documentation</Link>
+					<Link href="/docs" className="link text-accent">
+						API documentation
+					</Link>
+				</div>
+			</div>
+
+			<div className="w-[60%] bg-base-200 m-8 rounded-2xl justify-self-center p-4">
+				<h1 className="text-3xl font-bold">Account Management</h1>
+
+				<div className="flex flex-col">
+					<button
+						onClick={logout}
+						type="button"
+						className="btn bg-base-300 hover:bg-base-200 hover:border-1 hover:border-[#43475D] mt-4 md:w-xs w-full"
+					>
+						Logout
+					</button>
+
+					<button
+						onClick={deleteAccount}
+						type="button"
+						className="btn bg-red-800 hover:bg-red-700 hover:border-1 hover:border-red-600 mt-4 md:w-xs w-full"
+					>
+						Delete Account
+					</button>
 				</div>
 			</div>
 		</>

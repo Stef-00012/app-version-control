@@ -356,7 +356,7 @@ export const apiUsersMeTokensGetResponseModelRows: ModelTableProps["rows"] = [
 
 export const apiUsersMeTokensPatchBodyModelRows: ModelTableProps["rows"] = [
 	{
-		name: "removeToken",
+		name: "token",
 		type: "string",
 		description: "The token to delete.",
 	},

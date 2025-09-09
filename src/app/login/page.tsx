@@ -21,7 +21,7 @@ export default function Login() {
 
 				{error && <p className="text-error text-lg">{error}</p>}
 
-				<label className="label text-base" htmlFor="username">
+				<label className="label text-text" htmlFor="username">
 					Username
 				</label>
 				<input
@@ -34,7 +34,7 @@ export default function Login() {
 					}}
 				/>
 
-				<label className="label text-base" htmlFor="password">
+				<label className="label text-text" htmlFor="password">
 					Password
 				</label>
 				<input
@@ -89,9 +89,9 @@ export default function Login() {
 					Login
 				</button>
 
-                <p className="mt-4 text-base">
+                <p className="mt-4 text-text">
                     Don&apos;t have an account?{" "}
-                    <Link href="/register" className="link">Register</Link>
+                    <Link href="/register" className="link text-accents">Register</Link>
                 </p>
 			</fieldset>
 		</div>
