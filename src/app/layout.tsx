@@ -7,11 +7,11 @@ import "./globals.css";
 export const metadata: Metadata = {
     title: "App Version Control",
     description:
-        "A version control API to know if there an available update in anyof your apps and if so, prompt the user to update.",
+        "A version control API to know if there an available update in any of your apps and if so, prompt the user to update.",
     openGraph: {
         title: "App Version Control",
         description:
-            "A version control API to know if there an available update in anyof your apps and if so, prompt the user to update.",
+            "A version control API to know if there an available update in any of your apps and if so, prompt the user to update.",
         type: "website",
     },
 };
