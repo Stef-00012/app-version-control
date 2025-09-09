@@ -10,7 +10,7 @@ import type schema from "@/db/schema";
 import type { APIResponses } from "@/types/apiResponses";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function adminUsers() {
@@ -19,6 +19,10 @@ export default function adminUsers() {
     const { user } = useContext(AuthContext);
 
     const [users, setUsers] = useState<(typeof schema.users.$inferSelect)[]>([]);
+
+    const [newUserPassword, setNewUserPassword] = useState("");
+
+    const input = useRef<HTMLInputElement>(null);
 
     const fetchUsers = useCallback(async () => {
 		try {
@@ -77,7 +81,9 @@ export default function adminUsers() {
 
                         createUser(username, password, admin);
 
-                        const modalId = "add-app-modal";
+                        const modalId = "add-user-modal";
+
+                        setNewUserPassword("");
 
                         const modal = document.getElementById(modalId) as HTMLDialogElement;
 
@@ -94,8 +100,25 @@ export default function adminUsers() {
                             title="Password"
                             name="password"
                             placeholder="abc123"
-                            required
-                        />
+                            className="validator w-full"
+                            type="password"
+                            onChange={(e) => setNewUserPassword(e.target.value.trim())}
+                            value={newUserPassword}
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}"
+                            ref={input}
+                        >
+                            {input.current && !input.current.validity.valid && (
+                                <p className="text-error">
+                                    Must be atleast 10 characters, including
+                                    <br />
+                                    At least one number
+                                    <br />
+                                    At least one lowercase letter
+                                    <br />
+                                    At least one uppercase letter
+                                </p>
+                            )}
+                        </Input>
 
                         <Toggle
                             label="Admin"
