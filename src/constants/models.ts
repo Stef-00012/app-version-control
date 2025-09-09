@@ -207,7 +207,7 @@ export const apiAuthRegister403ErrorModelRows: ModelTableProps["rows"] = [
 	{
 		name: "error",
 		type: "string",
-		description: "Username already in use.",
+		description: "Username already in use or password too weak.",
 	},
 ];
 

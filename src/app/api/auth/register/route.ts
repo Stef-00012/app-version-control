@@ -5,6 +5,8 @@ import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
+const passwordPattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+
 export async function POST(req: NextRequest) {
 	const body = (await req.json()) as APIAuthPostBody;
 
@@ -19,6 +21,9 @@ export async function POST(req: NextRequest) {
 	})
 
 	if (existingUser) return NextResponse.json({ error: "Username already in use" }, { status: 403 });
+
+	if (!passwordPattern.test(password))
+			return NextResponse.json({ error: "Password too weak" }, { status: 403 });
 
 	const newUser = await db
 		.insert(schema.users)

@@ -3,7 +3,7 @@ import { useState } from "react";
 interface Props {
     label: string;
     name: string;
-	toggled: boolean;
+	toggled?: boolean;
 	onToggle?: (toggled: boolean) => void;
 }
 

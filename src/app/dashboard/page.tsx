@@ -4,10 +4,12 @@ import App from "@/components/App";
 import Input from "@/components/Input";
 import ModalButton from "@/components/ModalButton";
 import Navbar from "@/components/Navbar";
+import Toggle from "@/components/Toggle";
+import { AuthContext } from "@/contexts/AuthProvider";
 import type schema from "@/db/schema";
 import type { APIResponses } from "@/types/apiResponses";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function Dashboard() {
@@ -17,9 +19,13 @@ export default function Dashboard() {
 		(typeof schema.apps.$inferSelect)[]
 	>([]);
 
+	const [showAll, setShowAll] = useState(false);
+
+	const { user } = useContext(AuthContext)
+
 	const fetchApps = useCallback(async () => {
 		try {
-			const res = await axios.get("/api/apps")
+			const res = await axios.get(`/api/apps?showAll=${showAll ? "true" : "false"}`);
 			
 			if (res.status !== 200) toast.error("Failed to fetch apps");
 
@@ -31,7 +37,7 @@ export default function Dashboard() {
 			
 			toast.error("Failed to fetch apps");
 		}
-	}, [])
+	}, [showAll])
 
 	function createApp(name: string) {
 		const promiseRequest = axios
@@ -63,34 +69,46 @@ export default function Dashboard() {
 			<div className="flex justify-between">
 				<h1 className="text-3xl font-bold p-2 ml-4">Apps</h1>
 
-				<ModalButton modalId="add-app-modal">
-					<h3 className="font-bold text-lg">Add New App</h3>
-
-					<form action={async (formData) => {
-						const name = formData.get("name")?.toString() as string;
-						createApp(name);
-
-						const modalId = "add-app-modal";
-
-						const modal = document.getElementById(modalId) as HTMLDialogElement;
-
-						modal.close();
-					}}>
-						<Input
-							title="App Name"
-							name="name"
-							placeholder="My App"
-							required
+				<div>
+					{user.admin && (
+						<Toggle
+							label="Show All"
+							name="showAll"
+							onToggle={(toggled) => {
+								setShowAll(toggled);
+							}}
 						/>
+					)}
 
-						<button
-							type="submit"
-							className="btn w-full rounded-lg"
-						>
-							Create App
-						</button>
-					</form>
-				</ModalButton>
+					<ModalButton modalId="add-app-modal">
+						<h3 className="font-bold text-lg">Add New App</h3>
+
+						<form action={async (formData) => {
+							const name = formData.get("name")?.toString() as string;
+							createApp(name);
+
+							const modalId = "add-app-modal";
+
+							const modal = document.getElementById(modalId) as HTMLDialogElement;
+
+							modal.close();
+						}}>
+							<Input
+								title="App Name"
+								name="name"
+								placeholder="My App"
+								required
+							/>
+
+							<button
+								type="submit"
+								className="btn w-full rounded-lg"
+							>
+								Create App
+							</button>
+						</form>
+					</ModalButton>
+				</div>
 			</div>
 
 			<div className="p-4">
