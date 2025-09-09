@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function adminUsers() {
+export default function AdminUsers() {
     const router = useRouter();
 
     const { user } = useContext(AuthContext);
