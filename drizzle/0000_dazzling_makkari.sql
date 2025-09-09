@@ -2,13 +2,12 @@ CREATE TABLE `apps` (
 	`app_id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`app_name` text NOT NULL,
 	`owner_id` integer NOT NULL,
-	`platforms` text DEFAULT '{}' NOT NULL
+	`pinned` integer DEFAULT false
 );
 --> statement-breakpoint
 CREATE TABLE `platforms` (
 	`id` text PRIMARY KEY NOT NULL,
-	`name` text NOT NULL,
-	`icon` text
+	`name` text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `users` (
@@ -25,5 +24,6 @@ CREATE TABLE `versions` (
 	`owner` integer NOT NULL,
 	`app_name` integer NOT NULL,
 	`platforms` text DEFAULT '{}' NOT NULL,
+	`pinned` integer DEFAULT false,
 	PRIMARY KEY(`app_name`, `version_code`)
 );

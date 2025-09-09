@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "d2d9b0af-3254-4201-afc2-7824fdc76a3e",
+  "id": "e4c1daa6-b041-4d19-b8a2-105d6d897ad1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "apps": {
@@ -28,13 +28,13 @@
           "notNull": true,
           "autoincrement": false
         },
-        "platforms": {
-          "name": "platforms",
-          "type": "text",
+        "pinned": {
+          "name": "pinned",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false,
-          "default": "'{}'"
+          "default": false
         }
       },
       "indexes": {},
@@ -58,13 +58,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
-        },
-        "icon": {
-          "name": "icon",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
           "autoincrement": false
         }
       },
@@ -159,6 +152,14 @@
           "notNull": true,
           "autoincrement": false,
           "default": "'{}'"
+        },
+        "pinned": {
+          "name": "pinned",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": false
         }
       },
       "indexes": {},

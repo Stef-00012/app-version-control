@@ -1,1 +1,0 @@
-ALTER TABLE `apps` ADD `pinned` integer DEFAULT false;
