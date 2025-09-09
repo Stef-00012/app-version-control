@@ -21,5 +21,3 @@ You can also fetch the version data from your website or the app itself using th
 4. `bun db:setup`
 5. `bun run build`
 6. `bun start`
-
-This will create an apk but won't automatically install
