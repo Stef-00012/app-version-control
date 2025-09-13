@@ -18,7 +18,7 @@ export default function Navbar() {
 			<div className="flex gap-2">
 				<div className="flex flex-row gap-2">
 					{user.admin && (
-						<Link className={`btn bg-base-100 hover:bg-base-200 text-xl text-blue ${user.id === -1 ? "pointer-events-none" : ""}`} href="/dashboard/admin/users">
+						<Link className={`btn bg-base-100 hover:bg-base-200 text-xl text-info ${user.id === -1 ? "pointer-events-none" : ""}`} href="/dashboard/admin/users">
 							Manage Users
 						</Link>
 					)}

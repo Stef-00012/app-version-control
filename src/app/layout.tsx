@@ -3,6 +3,7 @@ import AuthProvider from "@/contexts/AuthProvider";
 import { ToastContainer } from "react-toastify";
 
 import "./globals.css";
+import ThemeProvider from "@/contexts/ThemeProvider";
 
 export const metadata: Metadata = {
     title: "App Version Control",
@@ -32,8 +33,10 @@ export default function RootLayout({
 		<html data-theme="catppuccin-macchiato" lang="en">
 			<body className="antialiased">
 				<AuthProvider>
-					{children}
-					<ToastContainer theme="dark" closeOnClick />
+					<ThemeProvider>
+						{children}
+						<ToastContainer theme="dark" closeOnClick />
+					</ThemeProvider>
 				</AuthProvider>
 			</body>
 		</html>

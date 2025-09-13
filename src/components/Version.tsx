@@ -108,7 +108,7 @@ export default function Version({
 						}}
 					>
 						<Input
-							title="Version Name"
+							_title="Version Name"
 							name="versionName"
 							placeholder="v1.2.3"
 							defaultValue={version.versionName}
@@ -144,7 +144,7 @@ export default function Version({
 					type="button"
 					onClick={deleteVersion}
 				>
-					<span className="material-symbols-rounded text-red">
+					<span className="material-symbols-rounded text-error">
 						delete
 					</span>
 				</button>

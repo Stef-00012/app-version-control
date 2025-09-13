@@ -103,7 +103,7 @@ export default function App({ app, updateApps }: Props) {
 						}}
 					>
 						<Input
-							title="App Name"
+							_title="App Name"
 							name="name"
 							placeholder="My App"
 							defaultValue={app.appName}
@@ -133,7 +133,7 @@ export default function App({ app, updateApps }: Props) {
 					type="button"
 					onClick={deleteApp}
 				>
-					<span className="material-symbols-rounded text-red">delete</span>
+					<span className="material-symbols-rounded text-error">delete</span>
 				</button>
 			</div>
 		</div>

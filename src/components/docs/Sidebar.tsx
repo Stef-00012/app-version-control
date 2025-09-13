@@ -38,7 +38,7 @@ function SidebarItem({ item, level = 0 }: SidebarItemProps) {
 			<button
 				type="button"
 				onClick={handleToggle}
-				className={`flex items-center px-3 py-2 rounded-lg transition-colors hover:bg-base-100 border-2 border-transparent hover:border-[#43475D] font-medium text-base-content cursor-pointer`}
+				className={`flex items-center px-3 py-2 rounded-lg transition-colors hover:bg-base-100 border-2 border-transparent hover:border-text/25 font-medium text-base-content cursor-pointer`}
 				style={{
 					marginLeft: `${level * 12}px`,
 					width: level > 1 ? `calc(100% - ${level * 12}px)` : "100%",
@@ -127,7 +127,7 @@ export function Sidebar({ children }: { children: ReactNode }) {
 								htmlFor={drawerId}
 								className="btn btn-circle bg-base-300 drawer-button lg:hidden"
 							>
-								<span className="material-symbols-outlined text-red">close</span>
+								<span className="material-symbols-outlined text-error">close</span>
 							</label>
 						</div>
 					</div>

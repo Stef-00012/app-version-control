@@ -142,14 +142,14 @@ export default function AppView({
 						}}
 					>
 						<Input
-							title="Version Name"
+							_title="Version Name"
 							name="versionName"
 							placeholder="v1.2.3"
 							required
 						/>
 
 						<Input
-							title="Version Code"
+							_title="Version Code"
 							name="versionCode"
 							type="number"
 							placeholder="123"

@@ -3,15 +3,19 @@
 import Input from "@/components/Input";
 import Navbar from "@/components/Navbar";
 import Token from "@/components/Token";
+import { themeKeys, themes } from "@/constants/themes";
 import { AuthContext } from "@/contexts/AuthProvider";
+import { ThemeContext } from "@/contexts/ThemeProvider";
 import type { APIResponses } from "@/types/apiResponses";
 import axios from "axios";
 import Link from "next/link";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import Select from "react-select";
 import { toast } from "react-toastify";
 
 export default function UserSettings() {
 	const { user, updateUser } = useContext(AuthContext);
+	const { theme, updateTheme } = useContext(ThemeContext)
 
 	const [isLoading, setIsLoading] = useState(user.id === -1);
 
@@ -19,6 +23,8 @@ export default function UserSettings() {
 	const [newPassword, setNewPassword] = useState("");
 
 	const [sessionToken, setSessionToken] = useState("");
+
+	const [useCustomTheme, setUseCustomTheme] = useState(false);
 
 	const input = useRef<HTMLInputElement>(null);
 
@@ -109,6 +115,10 @@ export default function UserSettings() {
 	}, [user]);
 
 	useEffect(() => {
+		setUseCustomTheme(theme?.id === "custom")
+	}, [theme])
+
+	useEffect(() => {
 		axios
 			.get("/api/users/me/sessionToken")
 			.then((res) => {
@@ -141,7 +151,7 @@ export default function UserSettings() {
 					}}
 				>
 					<Input
-						title="Username"
+						_title="Username"
 						name="username"
 						placeholder="Username"
 						className="w-full"
@@ -152,7 +162,7 @@ export default function UserSettings() {
 					/>
 
 					<Input
-						title="Password"
+						_title="Password"
 						name="password"
 						placeholder="abc123"
 						className="validator w-full"
@@ -178,7 +188,7 @@ export default function UserSettings() {
 
 					<button
 						type="submit"
-						className="btn bg-base-300 hover:bg-base-200 hover:border-1 hover:border-[#43475D] mt-4 md:w-xs w-full"
+						className="btn bg-base-300 hover:bg-base-200 hover:border-1 hover:border-text/25 mt-4 md:w-xs w-full"
 						disabled={
 							isLoading ||
 							!input.current?.validity.valid ||
@@ -191,12 +201,86 @@ export default function UserSettings() {
 			</div>
 
 			<div className="w-[60%] bg-base-200 m-8 rounded-2xl justify-self-center p-4">
+				<h1 className="text-3xl font-bold">Theme</h1>
+
+				<Select
+					isSearchable
+					unstyled
+					classNames={{
+						control: () => "select w-full mt-2",
+						input: () => "text-text",
+						option: ({ isSelected }) => `rounded-xl my-1 p-1  hover:bg-base-200 ${isSelected ? "bg-base-100 text-info" : "bg-transparent text-text"}`,
+						menuList: () => "bg-base-300 rounded-xl p-2",
+					}}
+					options={themes}
+					placeholder="Select Theme..."
+					isOptionSelected={(option) => option.id === theme?.id}
+					onChange={(option) => {
+						if (!option) return;
+
+						if (option.id === "custom") return setUseCustomTheme(true);
+
+						localStorage.setItem("theme", JSON.stringify(themes.find(thme => thme.id === option.id)));
+
+						updateTheme();
+					}}
+				/>
+
+				{useCustomTheme && (
+					<>
+						<h1 className="text-xl font-bold mt-3">Custom Theme</h1>
+
+						<form
+							action={(formData: FormData) => {
+								const colors = Object.fromEntries(themeKeys.map((key) => [
+									key,
+									formData.get(key)?.toString() as `#${string}`,
+								])) as Record<typeof themeKeys[0], `#${string}`>
+
+								const newTheme: (typeof themes)[number] = {
+									id: "custom",
+									label: "Custom",
+									colors,
+								}
+
+								localStorage.setItem("theme", JSON.stringify(newTheme));
+
+								updateTheme();
+							}}
+						>
+							{themeKeys.map((key) => (
+								<Input
+									_title={key}
+									name={key}
+									placeholder="#ffffff"
+									titleColor={key}
+									required
+									defaultValue={theme?.colors[key]}
+									className="validator w-full"
+									key={key}
+									pattern="^#[a-fA-F0-9]{6}$"
+									title="Must be a valid hex color (e.g. #ffffff)"
+								/>
+							))}
+
+							<button
+								className="btn bg-base-300 hover:bg-base-200 hover:border-1 hover:border-text/25 mt-4 md:w-xs w-full"
+								type="submit"
+							>
+								Save
+							</button>
+						</form>
+					</>
+				)}
+			</div>
+
+			<div className="w-[60%] bg-base-200 m-8 rounded-2xl justify-self-center p-4">
 				<div className="flex justify-between">
 					<h1 className="text-3xl font-bold">Tokens</h1>
 
 					<button
 						type="button"
-						className="btn bg-base-300 hover:bg-base-200 hover:border-1 hover:border-[#43475D] p-2 mb-3 rounded-md"
+						className="btn bg-base-300 hover:bg-base-200 hover:border-1 hover:border-text/25 p-2 mb-3 rounded-md"
 						onClick={createToken}
 					>
 						<span className="material-symbols-rounded text-primary-content">
@@ -234,7 +318,7 @@ export default function UserSettings() {
 					<button
 						onClick={logout}
 						type="button"
-						className="btn bg-base-300 hover:bg-base-200 hover:border-1 hover:border-[#43475D] mt-4 md:w-xs w-full"
+						className="btn bg-base-300 hover:bg-base-200 hover:border-1 hover:border-text/25 mt-4 md:w-xs w-full"
 					>
 						Logout
 					</button>
@@ -242,7 +326,7 @@ export default function UserSettings() {
 					<button
 						onClick={deleteAccount}
 						type="button"
-						className="btn bg-red-800 hover:bg-red-700 hover:border-1 hover:border-red-600 mt-4 md:w-xs w-full"
+						className="btn bg-error/80 hover:bg-error hover:border-1 hover:border-error/80 mt-4 md:w-xs w-full"
 					>
 						Delete Account
 					</button>

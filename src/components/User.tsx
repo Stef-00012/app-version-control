@@ -99,14 +99,14 @@ export default function User({
 						}}
 					>
 						<Input
-							title="Username"
+							_title="Username"
 							name="username"
 							placeholder="My User"
 							defaultValue={user.username}
 						/>
 
                         <Input
-							title="Password"
+							_title="Password"
 							name="username"
                             type="password"
 							placeholder="abc123"
@@ -129,7 +129,7 @@ export default function User({
 					type="button"
 					onClick={deleteUser}
 				>
-					<span className="material-symbols-rounded text-red">
+					<span className="material-symbols-rounded text-error">
 						delete
 					</span>
 				</button>

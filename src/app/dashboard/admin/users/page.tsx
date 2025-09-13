@@ -90,14 +90,14 @@ export default function AdminUsers() {
                         modal.close();
                     }}>
                         <Input
-                            title="Username"
+                            _title="Username"
                             name="username"
                             placeholder="My User"
                             required
                         />
 
                         <Input
-                            title="Password"
+                            _title="Password"
                             name="password"
                             placeholder="abc123"
                             className="validator w-full"
@@ -143,7 +143,7 @@ export default function AdminUsers() {
                             .map((usr) => <User key={usr.id} user={usr} updateUsers={fetchUsers} />)
                     ) : (
                         <div className="w-full flex justify-center items-center">
-                            <p className="text-center w-full text-2xl text-overlay2 font-bold">
+                            <p className="text-center w-full text-2xl text-text-overlay font-bold">
                                 No user found
                             </p>
                         </div>

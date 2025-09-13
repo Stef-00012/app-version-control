@@ -94,7 +94,7 @@ export default function Dashboard() {
 							modal.close();
 						}}>
 							<Input
-								title="App Name"
+								_title="App Name"
 								name="name"
 								placeholder="My App"
 								required
@@ -133,7 +133,7 @@ export default function Dashboard() {
 						apps.map((app) => <App key={app.appId} app={app} updateApps={fetchApps} />)
 					) : (
 						<div className="w-full flex justify-center items-center">
-							<p className="text-center w-full text-2xl text-overlay2 font-bold">
+							<p className="text-center w-full text-2xl text-text-overlay font-bold">
 								No apps found
 							</p>
 						</div>

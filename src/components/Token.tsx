@@ -38,7 +38,7 @@ export default function Token({
 	return (
 		<div className="border border-[var(--color-overlay0)] p-4 rounded-lg shadow hover:shadow-md transition flex flex-row justify-between items-center">
             <h2
-                className={`font-bold text-lg overflow-hidden text-ellipsis whitespace-nowrap flex mr-5 ${isCurrentSession ? "text-gray-500" : ""}`}
+                className={`font-bold text-lg text-text overflow-hidden text-ellipsis whitespace-nowrap flex mr-5 ${isCurrentSession ? "text-text/50" : ""}`}
                 title={token}
             >
                 {token}
@@ -62,7 +62,7 @@ export default function Token({
 					tabIndex={isCurrentSession ? -1 : 0}
 					title={isCurrentSession ? "You cannot delete the token for the current session" : "Delete Token"}
                 >
-                    <span className={`material-symbols-rounded text-red`}>
+                    <span className={`material-symbols-rounded text-error`}>
                         delete
                     </span>
                 </button>

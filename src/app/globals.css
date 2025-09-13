@@ -29,6 +29,8 @@
     --color-base: #24273a;
     --color-mantle: #1e2030;
     --color-crust: #181926;
+
+    --color-text-overlay: var(--color-overlay2);
 }
 
 @plugin "@iconify/tailwind4";
@@ -41,19 +43,19 @@
     --color-error: var(--color-red);
     --color-base-content: var(--color-text);
     --color-primary-content: var(--color-text);
-    --color-secondary-content: var(--color-text);
-    --color-info-content: var(--color-text);
-    --color-error-content: var(--color-text);
     --color-info: var(--color-blue);
-    --color-secondary: var(--color-sapphire);
-    --color-pneutral: var(--color-teal);
-    --color-success: var(--color-green);
-    --color-warning: var(--color-yellow);
     --color-accent: var(--color-mauvre);
     --color-primary: var(--color-mauvre);
     --color-base-100: var(--color-base);
     --color-base-200: var(--color-mantle);
     --color-base-300: var(--color-crust);
+    /* --color-secondary-content: var(--color-text); */
+    /* --color-info-content: var(--color-text); */
+    /* --color-error-content: var(--color-text); */
+    /* --color-secondary: var(--color-sapphire); */
+    /* --color-pneutral: var(--color-teal); */
+    /* --color-success: var(--color-green); */
+    /* --color-warning: var(--color-yellow); */
 
     --radius-selector: 1rem;
     --radius-field: 1rem;
